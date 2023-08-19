@@ -1285,6 +1285,7 @@
                             multipliyer++;
                             rewardText.text = multipliyer + 1 + ' X';
                             document.dispatchEvent(OnGameStart);
+                            CheckRewardAds();
                         }                           
                         else
                         {
@@ -1576,18 +1577,6 @@
             spriteNumberText.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
             spriteNumberText1.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
             spriteNumberText2.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
-
-            /*vkBridge.send('VKWebAppCheckNativeAds', {
-                ad_format: 'reward' 
-            })
-                .then((data) => {
-                    if (data.result) {
-                        app.stage.addChild(rewardButton);
-                    } else {
-                        app.stage.removeChild(rewardButton);
-                    }
-                })
-                .catch((error) => { console.log(error); });*/
             
         }
 
@@ -1631,6 +1620,20 @@
 
         setTimeout(() => { app.ticker.add(moveBall); }, 390);
 
+
+        function CheckRewardAds()
+        {
+          vkBridge.send('VKWebAppCheckNativeAds', {
+            ad_format: 'reward'
+          }).then((data) => {
+            if (data.result) {
+                app.stage.addChild(rewardButton);
+            } else {
+                app.stage.removeChild(rewardButton);
+            }
+          }).catch((error) => { console.log(error); });
+        }
+
         
         if (isYSDK) {
             vkBridge.send('VKWebAppShowBannerAd', {
@@ -1645,7 +1648,13 @@
                 .catch((error) => {
                     // Ошибка
                     console.log(error);
-                })
+            })
+
+
+            CheckRewardAds();
+            setTimeout(() => {CheckRewardAds();}, 8000);
+
+
         }
         document.addEventListener("OnYSDKInit", () => {
             vkBridge.send('VKWebAppShowBannerAd', {
@@ -1661,6 +1670,10 @@
                     // Ошибка
                     console.log(error);
                 })
+
+                CheckRewardAds();
+
+
         });
 
         var element = document.getElementById("ld");
