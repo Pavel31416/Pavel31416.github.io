@@ -146,25 +146,6 @@
 
 
 
-    let fiveCoins = true, tenCoins = true, hundredCoins = true, thousandCoins = true;
-    function SetCoinsMetrics() {
-        if (fiveCoins && totalMoney >= 5 && totalMoney < 10) {
-            fiveCoins = false;
-            PM('5Coins');
-        }
-        if (tenCoins && totalMoney >= 10 && totalMoney < 100) {
-            tenCoins = false;
-            PM('10Coins');
-        }
-        if (hundredCoins && totalMoney >= 100 && totalMoney < 1000) {
-            hundredCoins = false;
-            PM('100Coins');
-        }
-        if (thousandCoins && totalMoney >= 1000) {
-            thousandCoins = false;
-            PM('1000Coins');
-        }
-    }
     //#endregion
 
     //#region CreateScene  
@@ -366,7 +347,6 @@
                 effectText = new PIXI.Text('+' + clickCost * multipliyer, style);
                 score += clickCost * multipliyer;
                 totalMoney += clickCost * multipliyer;
-                SetCoinsMetrics();
                 document.dispatchEvent(OnUpdateUI);
                 Save();
                 break;
@@ -375,7 +355,6 @@
                 effectText = new PIXI.Text('+' + 2 * clickCost * multipliyer, style);
                 score += 2*clickCost * multipliyer;
                 totalMoney += 2*clickCost * multipliyer;
-                SetCoinsMetrics();
                 document.dispatchEvent(OnUpdateUI);
                 crystalNumber++;
                 UpdateTrophyText();
@@ -385,7 +364,6 @@
                 effectText = new PIXI.Text('+' + 3 * clickCost * multipliyer, style);
                 score += 3*clickCost * multipliyer;
                 totalMoney += 3*clickCost * multipliyer;
-                SetCoinsMetrics();
                 document.dispatchEvent(OnUpdateUI);
                 crystalNumber++;
                 UpdateTrophyText();
@@ -760,7 +738,6 @@
                 let giftAmount = 50 + Math.round(0.28*cost);
                 score += giftAmount;
                 Save();
-                PM('gift');
                 document.dispatchEvent(OnGemClick);
                 document.dispatchEvent(OnUpdateUI);
                 
@@ -847,7 +824,6 @@
                 questButtonText.text = '+' + CrystalQuestCost();
                 
                 Save();
-                PM('trophy');
                 document.dispatchEvent(OnGemClick);
                 UpdateTrophyText();
                 document.dispatchEvent(OnUpdateUI);
@@ -986,7 +962,6 @@
                 
 
                 Save();
-                PM('TS');
                 document.dispatchEvent(OnGemClick);
                 UpdateTrophySmile();
                 document.dispatchEvent(OnUpdateUI);
@@ -1090,7 +1065,6 @@
                 document.dispatchEvent(OnNewSmileSound);
                 UpdateTrophySmile();
                 Save();
-                PM('newSmile');
             }
         });
         app.stage.addChild(newButton);
@@ -1182,7 +1156,6 @@
                 AddTextureBall(ball, ballNumber);
                 SetRandomSmileImage();
                 document.dispatchEvent(OnUpdateUI);
-                PM('ReRoll');
                 UpdateTrophySmile();
                 Save();
                 document.dispatchEvent(OnNewSmileSound);
@@ -1309,7 +1282,6 @@
                             document.dispatchEvent(OnGameStop);
                         },
                         onRewarded: () => {
-                            PM('Reward');
                             multipliyer++;
                             rewardText.text = multipliyer + 1 + ' X';
 
@@ -1646,18 +1618,34 @@
 
         
         if (isYSDK) {
-            ysdk.adv.getBannerAdvStatus().then(({ stickyAdvIsShowing }) => {
-                if (!stickyAdvIsShowing) {
-                    ysdk.adv.showBannerAdv();
-                }
+            vkBridge.send('VKWebAppShowBannerAd', {
+                banner_location: 'bottom',
+                layout_type: 'resize'
             })
+                .then((data) => {
+                    if (data.result) {
+                        // Баннерная реклама отобразилась
+                    }
+                })
+                .catch((error) => {
+                    // Ошибка
+                    console.log(error);
+                })
         }
         document.addEventListener("OnYSDKInit", () => {
-            ysdk.adv.getBannerAdvStatus().then(({ stickyAdvIsShowing }) => {
-                if (!stickyAdvIsShowing) {
-                    ysdk.adv.showBannerAdv();
-                }
+            vkBridge.send('VKWebAppShowBannerAd', {
+                banner_location: 'bottom',
+                layout_type: 'resize'
             })
+                .then((data) => {
+                    if (data.result) {
+                        // Баннерная реклама отобразилась
+                    }
+                })
+                .catch((error) => {
+                    // Ошибка
+                    console.log(error);
+                })
         });
 
         var element = document.getElementById("ld");
@@ -1699,7 +1687,6 @@
                     if (bombState[i] != -1) {
                         score += multipliyer;
                         totalMoney += multipliyer;
-                        SetCoinsMetrics();
                     }
 
 
@@ -1760,10 +1747,6 @@
                     app.stage.removeChild(adsContainer);
                 },
                 onOpen: function () {
-                    if (adsCount <= 5) {
-                        PM('Ads' + adsCount);
-                    }
-                    adsCount++;
                     emergensyClose = false;
                 }
             }
@@ -1800,37 +1783,6 @@
         }
     }
 
-    let timer0 = 0;
-    let Timer0Conditions = [true, true, true, true, true];
-    let Timer0Value = [1, 5, 14, 30, 60];
-    function CountTimerFromStart(delta) {
-        if (!isGameStopped) {
-            timer0 += delta / 60;
-        }
-        if (Timer0Conditions[0] && timer0 >= Timer0Value[0]) {
-            Timer0Conditions[0] = false;
-            PM('1Sec');
-        }
-        if (Timer0Conditions[1] && timer0 >= Timer0Value[1]) {
-            Timer0Conditions[1] = false;
-            PM('5Sec');
-        }
-        if (Timer0Conditions[2] && timer0 >= Timer0Value[2]) {
-            Timer0Conditions[2] = false;
-            app.ticker.add(CycleTimer);
-            FirstAdsShow();
-        }
-        if (Timer0Conditions[3] && timer0 >= Timer0Value[3]) {
-            Timer0Conditions[3] = false;
-            PM('30Sec');
-        }
-        if (Timer0Conditions[4] && timer0 >= Timer0Value[4]) {
-            Timer0Conditions[4] = false;
-            PM('60Sec');
-            app.ticker.remove(CountTimerFromStart);
-        }
-    }
-    app.ticker.add(CountTimerFromStart);
 
 
     let timerOneSec = 0;
