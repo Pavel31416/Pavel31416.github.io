@@ -1671,7 +1671,7 @@
             ball[i].eventMode = 'dynamic';
             ball[i].on('pointerdown', function () {
                 document.dispatchEvent(OnGameInteract);
-                if (!isOpen) {
+                if (!isOpen && !isGameStopped) {
                     BallClick(i);
                     switch (bombState[i]) {
                         case -1:
@@ -1729,20 +1729,6 @@
 
         var element = document.getElementById("ld");
         element.remove();
-
-        setTimeout(() => {
-            AutoShow();
-            app.ticker.add(CycleTimer);
-            vkBridge.send('VKWebAppShowBannerAd', {
-                banner_location: 'bottom',
-                layout_type: 'resize'
-            })
-                .then((data) => {
-                })
-                .catch((error) => {
-                })
-        }, 19000);
-
     });
 
 
@@ -1838,7 +1824,7 @@
 
 
     function AutoShow() {
-        bridge.send('VKWebAppCheckNativeAds', {
+        vkBridge.send('VKWebAppCheckNativeAds', {
             ad_format: 'interstitial'
         })
             .then((data) => {
@@ -1903,6 +1889,21 @@
             }
         }
     }
+
+
+
+    setTimeout(() => {
+        AutoShow();
+        app.ticker.add(CycleTimer);
+        vkBridge.send('VKWebAppShowBannerAd', {
+            banner_location: 'bottom',
+            layout_type: 'resize'
+        })
+            .then((data) => {
+            })
+            .catch((error) => {
+            })
+    }, 19000);
     //#endregion
 }
 P();
