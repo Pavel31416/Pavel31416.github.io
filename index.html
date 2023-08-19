@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script>
+        function PM(n) { ym(94495340, "reachGoal", n) } !function (n, e, t, c, a, i, s) { n[a] = n[a] || function () { (n[a].a = n[a].a || []).push(arguments) }, n[a].l = 1 * new Date; for (var r = 0; r < document.scripts.length; r++)if (document.scripts[r].src === c) return; i = e.createElement(t), s = e.getElementsByTagName(t)[0], i.async = 1, i.src = c, s.parentNode.insertBefore(i, s) }(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"), ym(94495340, "init", { clickmap: !0, trackLinks: !0, accurateTrackBounce: !0 }); const OnYSDKInit = new Event("OnYSDKInit"); let isYSDK = !1; function async(n, e) { var t = document, c = "script", a = t.createElement(c), i = t.getElementsByTagName(c)[0]; a.src = n, e && a.addEventListener("load", (function (n) { e(null, n) }), !1), i.parentNode.insertBefore(a, i) } async("https://yandex.ru/games/sdk/v2", (() => { YaGames.init().then((n => { window.ysdk = n, document.dispatchEvent(OnYSDKInit), isYSDK = !0 })) }));
+    </script>
+    <style>
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1099bb;
+        }
+
+        .loader {
+            width:  30vw;
+            height: 30vw;
+            border: 4vw solid #FFF;
+            border-bottom-color: #FF3D00;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 2s linear infinite;
+            position: absolute;
+        }
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>    
+</head>
+<body>
+    <div id="ld" , class="loader"></div>
+    <script src="howler.core.min.js"></script>
+    <script src="pixi.min.js"></script>
+    <script src="source.js"></script>
+</body>
+</html>
