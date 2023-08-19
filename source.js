@@ -1577,7 +1577,7 @@
             spriteNumberText1.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
             spriteNumberText2.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
 
-            vkBridge.send('VKWebAppCheckNativeAds', {
+            /*vkBridge.send('VKWebAppCheckNativeAds', {
                 ad_format: 'reward' 
             })
                 .then((data) => {
@@ -1589,7 +1589,7 @@
                 })
                 .catch((error) => { console.log(error); });
             
-        }
+        }*/
 
         window.addEventListener('resize', myResizeUI);
         UpdateUI();
