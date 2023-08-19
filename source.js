@@ -593,6 +593,8 @@
     const closeStartMenuRect = new PIXI.Sprite();
     const soundButton1 = new PIXI.Sprite();
 
+    const buttonContainer = new PIXI.Container();
+
 
     function CrystalQuestCost() {
         return 20 * Math.round(0.5 * questCost) * Math.round(1 + 0.08 * questCost) + Math.round(0.15 * cost);
@@ -734,6 +736,8 @@
     adsContainer.addChild(adWillBeShownTxt);
 
 
+
+
     PIXI.Assets.load([
         spriteSheetName
     ]).then((textures) => {
@@ -742,6 +746,8 @@
         app.stage.addChild(ball[0]);
         app.stage.addChild(ball[1]);
         app.stage.addChild(ball[2]);
+
+        app.stage.addChild(buttonContainer);
 
         giftButton.texture = sheet.textures["gift.png"];
         giftButton.anchor.set(1, 1);
@@ -776,7 +782,7 @@
                 document.dispatchEvent(OnNewSmileSound);
             }
         });
-        app.stage.addChild(giftButton);
+        buttonContainer.addChild(giftButton);
 
 
 
@@ -797,7 +803,7 @@
         function myResizeTrophyRect() {
             SpriteScale(trophyRect, 1.98)
             SpritePositionX(trophyRect, 50);
-            SpritePositionY(trophyRect, 54);
+            SpritePositionY(trophyRect, 51);
         }
         trophyRect.eventMode = 'static';
 
@@ -897,7 +903,7 @@
         trophyCircleText.scale.y = 1.7;
         trophyCircle.addChild(trophyCircleText);
 
-        app.stage.addChild(trophyButton);
+        buttonContainer.addChild(trophyButton);
 
         
 
@@ -924,7 +930,7 @@
         function myResizeSmileTrophyRect() {
             SpriteScale(trophySmileRect, 1.98)
             SpritePositionX(trophySmileRect, 50);
-            SpritePositionY(trophySmileRect, 54);
+            SpritePositionY(trophySmileRect, 51);
         }
         trophyRect.eventMode = 'static';
 
@@ -1051,7 +1057,7 @@
         trophySmileCircleText.scale.y = 1.7;
         trophySmileCircle.addChild(trophySmileCircleText);
        
-        app.stage.addChild(trophySmileButton);
+        buttonContainer.addChild(trophySmileButton);
 
 
 
@@ -1109,7 +1115,7 @@
         function myResizeLuckRect() {
             SpriteScale(luckRect, 1.98)
             SpritePositionX(luckRect, 50);
-            SpritePositionY(luckRect, 54);
+            SpritePositionY(luckRect, 51);
         }
         luckRect.eventMode = 'static';
 
@@ -1270,7 +1276,7 @@
             }
             document.dispatchEvent(OnNewSmileSound);
         });
-        app.stage.addChild(menuButton);
+        buttonContainer.addChild(menuButton);
 
         menuCircle.beginFill(0xcc0033, 1);
         menuCircle.drawCircle(108, -108, 30);
@@ -1339,7 +1345,7 @@
         function myResizeMenuRect() {
             SpriteScale(menuRect, 1.98)
             SpritePositionX(menuRect, 50);
-            SpritePositionY(menuRect, 54);
+            SpritePositionY(menuRect, 51);
         }
         menuRect.eventMode = 'static';
 
@@ -1541,7 +1547,7 @@
         function myResizeStartMenuRect() {
             SpriteScale(startMenuRect, 1.98)
             SpritePositionX(startMenuRect, 50);
-            SpritePositionY(startMenuRect, 54);
+            SpritePositionY(startMenuRect, 51);
         }
         startMenuRect.eventMode = 'static';
         app.stage.addChild(startMenuRect);
