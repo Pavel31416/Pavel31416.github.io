@@ -1892,8 +1892,7 @@
 
 
 
-    setTimeout(() => {
-        AutoShow();
+    setTimeout(() => {        
         app.ticker.add(CycleTimer);
         vkBridge.send('VKWebAppShowBannerAd', {
             banner_location: 'bottom',
@@ -1904,6 +1903,8 @@
             .catch((error) => {
             })
     }, 19000);
+
+    AutoShow();
     //#endregion
 }
 P();
