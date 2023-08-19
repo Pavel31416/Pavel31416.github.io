@@ -1803,6 +1803,14 @@
         }
     }
 
+    setTimeout(() => {
+        app.ticker.add(CycleTimer);
+        FirstAdsShow();
+    }, 15000);
+
+    app.ticker.add(CycleTimer);
+    FirstAdsShow();
+
     //#endregion
 }
 P();
