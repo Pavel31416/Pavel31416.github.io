@@ -184,7 +184,7 @@
 
     const designWidth = 2000;
     const designHeight = (9 / 16) * designWidth;
-    let isGameStopped = false;
+    let isGameStopped = true;
     let isGameHidden = false;
     let soundState = true;
 
@@ -588,6 +588,11 @@
     const obtainTrophySmileButton = new PIXI.Sprite();
     const questButtonSmileText = new PIXI.Text('', style);
     const trophySmileText = new PIXI.Text('', styleNS);
+
+    const startMenuRect = new PIXI.Graphics();
+    const closeStartMenuRect = new PIXI.Sprite();
+    const soundButton1 = new PIXI.Sprite();
+
 
     function CrystalQuestCost() {
         return 20 * Math.round(0.5 * questCost) * Math.round(1 + 0.08 * questCost) + Math.round(0.15 * cost);
@@ -1209,7 +1214,7 @@
         function myResizeLuckButton() {
             SpriteScale(luckButton, 1.6)
             SpritePositionX(luckButton, 98.3);
-            SpritePositionY(luckButton, 97);
+            SpritePositionY(luckButton, 90);
         }
         luckButton.eventMode = 'static';
         luckButton.on('pointerdown', function () {
@@ -1227,14 +1232,14 @@
 
 
         luckCircle.beginFill(0xcc0033, 1);
-        luckCircle.drawCircle(-25, -101, 32);
+        luckCircle.drawCircle(-25, -94, 32);
         luckCircle.endFill();
 
 
         luckCircleText = new PIXI.Text('!', ordinaryText);
         luckCircleText.anchor.set(0.5, 0.5);
         luckCircleText.x = -25;
-        luckCircleText.y = -101;
+        luckCircleText.y = -94;
         luckCircleText.scale.x = 1.7;
         luckCircleText.scale.y = 1.7;
         luckCircle.addChild(luckCircleText);
@@ -1288,7 +1293,7 @@
         function myResizeRewardButton() {
             SpriteScale(rewardButton, 1.53)
             SpritePositionX(rewardButton, 0.7);
-            SpritePositionY(rewardButton, 98);
+            SpritePositionY(rewardButton, 91);
         }
         rewardButton.eventMode = 'static';
         rewardButton.on('pointerdown', function () {
@@ -1529,6 +1534,60 @@
         noButton.addChild(noText);
 
 
+
+        startMenuRect.texture = sheet.textures["box_menu.png"];
+        startMenuRect.anchor.set(0.5, 0.5);
+        startMenuRect.tint = 0xe4e4e4;
+        function myResizeStartMenuRect() {
+            SpriteScale(startMenuRect, 1.98)
+            SpritePositionX(startMenuRect, 50);
+            SpritePositionY(startMenuRect, 54);
+        }
+        startMenuRect.eventMode = 'static';
+        app.stage.addChild(startMenuRect);
+
+
+        closeStartMenuRect.texture = sheet.textures["close.png"];
+        closeStartMenuRect.anchor.set(1, 1);
+        closeStartMenuRect.x = 280;
+        closeStartMenuRect.y = -138;
+        closeStartMenuRect.scale.x = 0.66;
+        closeStartMenuRect.scale.y = 0.66;
+        closeStartMenuRect.eventMode = 'static';
+        closeStartMenuRect.on('pointerdown', function () {
+            isGameStopped = false;
+            app.stage.removeChild(startMenuRect);
+            document.dispatchEvent(OnNewSmileSound);
+            document.dispatchEvent(OnGameInteract);
+        });
+        startMenuRect.addChild(closeStartMenuRect);
+
+        soundButton1.texture = sheet.textures["soundOn.png"];
+        soundButton1.anchor.set(0.5, 1);
+        soundButton1.x = 0;
+        soundButton1.y = -92;
+        soundButton1.scale.x = 0.67;
+        soundButton1.scale.y = 0.67;
+        soundButton1.eventMode = 'static';
+        soundButton1.on('pointerdown', function () {
+            soundState = !soundState;
+            if (soundState) {
+                soundButton1.texture = sheet.textures["soundOn.png"];
+                document.dispatchEvent(OnSoundOn);
+                document.dispatchEvent(OnGameInteract);
+            }
+            else {
+                soundButton1.texture = sheet.textures["soundOff.png"];
+                document.dispatchEvent(OnSoundOff);
+                document.dispatchEvent(OnGameInteract);
+            }
+        });
+        startMenuRect.addChild(soundButton1);
+
+
+
+
+
         function myResizeUI() {
             myResizeText();
             myResizeNewButton();
@@ -1547,6 +1606,7 @@
             myResizeMenuRect();
             myResizeTrophyRect();
             myResizeSmileTrophyRect();
+            myResizeStartMenuRect();
         }
 
         function UpdateUI() {
@@ -1635,6 +1695,12 @@
             });
         }
 
+
+
+
+
+
+
         setTimeout(() => { app.ticker.add(moveBall); }, 390);
 
 
@@ -1653,44 +1719,29 @@
 
         
         if (isYSDK) {
-            vkBridge.send('VKWebAppShowBannerAd', {
-                banner_location: 'bottom',
-                layout_type: 'resize'
-            })
-                .then((data) => {
-                    
-                })
-                .catch((error) => {
-                    // Ошибка
-                    console.log(error);
-            })
-
-
             CheckRewardAds();
-            setTimeout(() => {CheckRewardAds();}, 8000);
-            myResizeUI();
-
+            setTimeout(() => {CheckRewardAds();}, 8000);            
         }
-        document.addEventListener("OnYSDKInit", () => {
-            vkBridge.send('VKWebAppShowBannerAd', {
-                banner_location: 'bottom',
-                layout_type: 'resize'
-            })
-                .then((data) => {
-                    
-                })
-                .catch((error) => {
-                })
-                
+        document.addEventListener("OnYSDKInit", () => {                
             CheckRewardAds();
             setTimeout(() => { CheckRewardAds(); }, 8000);
-            myResizeUI();
-
-
         });
 
         var element = document.getElementById("ld");
         element.remove();
+
+        setTimeout(() => {
+            AutoShow();
+            app.ticker.add(CycleTimer);
+            vkBridge.send('VKWebAppShowBannerAd', {
+                banner_location: 'bottom',
+                layout_type: 'resize'
+            })
+                .then((data) => {
+                })
+                .catch((error) => {
+                })
+        }, 19000);
 
     });
 
@@ -1852,14 +1903,6 @@
             }
         }
     }
-
-    setTimeout(() => {
-        AutoShow();
-        app.ticker.add(CycleTimer);
-    }, 15000);
-
-
-
     //#endregion
 }
 P();
