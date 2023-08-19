@@ -15,7 +15,25 @@
     //#region Data
     function SetSdk()
     {
-       SetRu();
+        SetRu();
+
+
+        vkBridge.subscribe((e) => {
+            if (e.detail.type === 'VKWebAppViewHide') {
+                Howler.mute(true);
+                isGameHidden = true;
+            }
+        });
+
+        vkBridge.subscribe((e) => {
+            if (e.detail.type === 'VKWebAppViewRestore') {
+                if (soundState && !isGameStopped) {
+                    Howler.mute(false);
+                    isGameHidden = false;
+                }
+            }
+        });
+
     }
 
     let stringAdWillBeStartedAfter = '';
@@ -437,19 +455,6 @@
     let isFirstLoad = true;
 
 
-    window.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-            Howler.mute(true);
-            isGameHidden = true;
-        }
-        else {
-            if (soundState && !isGameStopped) {
-                Howler.mute(false);
-                isGameHidden = false;
-            }
-        }
-    });
-
 
 
 
@@ -511,8 +516,6 @@
     let isTrophyOpen = false;
     let isTrophySmileOpen = false;
     let isOpen = false;
-
-    let adsCount = 1;
 
     let giftFill = 0;
 
@@ -1641,9 +1644,7 @@
                 layout_type: 'resize'
             })
                 .then((data) => {
-                    if (data.result) {
-                        // Баннерная реклама отобразилась
-                    }
+                    
                 })
                 .catch((error) => {
                     // Ошибка
@@ -1653,7 +1654,7 @@
 
             CheckRewardAds();
             setTimeout(() => {CheckRewardAds();}, 8000);
-
+            myResizeUI();
 
         }
         document.addEventListener("OnYSDKInit", () => {
@@ -1662,16 +1663,14 @@
                 layout_type: 'resize'
             })
                 .then((data) => {
-                    if (data.result) {
-                        // Баннерная реклама отобразилась
-                    }
+                    
                 })
                 .catch((error) => {
-                    // Ошибка
-                    console.log(error);
                 })
-
-                CheckRewardAds();
+                
+            CheckRewardAds();
+            setTimeout(() => { CheckRewardAds(); }, 8000);
+            myResizeUI();
 
 
         });
