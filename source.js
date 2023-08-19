@@ -29,10 +29,7 @@
 
     function SetSdk()
     {
-        Load();
         SetRu();
-
-
         vkBridge.subscribe((e) => {
             if (e.detail.type === 'VKWebAppViewHide') {
                 Howler.mute(true);
@@ -108,12 +105,11 @@
     let isLocalStorageAvialable = false;
 
 
-    
+    Load();
 
 
     function Save() {
-        if (isYSDK)
-        {
+        if (isLocalStorageAvialable) {
             let saveObjectTemp = {
                 s: score,
                 bN: ballNumber,
@@ -125,50 +121,42 @@
                 qc: questCost,
                 bqp: ballQuestProgress
             };
-            
-            vkBridge.send('VKWebAppStorageSet', {
-                key: 't',
-                value: JSON.stringify(saveObjectTemp)
-            })
-                .then((data) => {
-                    if (data.result)
-                    {
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-
+            localStorage.setItem('t2', JSON.stringify(saveObjectTemp));
         }
     }
 
     function Load() {
+        try {
+            let test = 't';
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test, test);
+            isLocalStorageAvialable = true;
+        } catch (e) {
+            isLocalStorageAvialable = false;
+        }
 
-        vkBridge.send('VKWebAppStorageGet', {
-            keys: 't'
-        })
-            .then((data) => {
-                if (data.t)
-                {
-                        let obj = JSON.parse(data.t);
-                        score = obj.s;
-                        ballNumber = obj.bN;
-                        cost = obj.c;
-                        clickCost = obj.cc;
-                        upgrateClickCost = obj.ucc;
-                        totalMoney = obj.tm;
-                        crystalNumber = obj.cn;
-                        questCost = obj.qc;
-                        ballQuestProgress = obj.bqp;
-                }
-                else
-                {
-                        SetDefault();
-                }
-            })
-            .catch((error) => {
+
+        if (isLocalStorageAvialable) {
+            let lS = localStorage.getItem('t2');
+            if (lS != null) {
+                let obj = JSON.parse(lS);
+                score = obj.s;
+                ballNumber = obj.bN;
+                cost = obj.c;
+                clickCost = obj.cc;
+                upgrateClickCost = obj.ucc;
+                totalMoney = obj.tm;
+                crystalNumber = obj.cn;
+                questCost = obj.qc;
+                ballQuestProgress = obj.bqp;
+            }
+            else {
                 SetDefault();
-            });           
+            }
+        }
+        else {
+            SetDefault();
+        }
     }
 
     function Reset() {
