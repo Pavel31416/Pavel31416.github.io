@@ -589,7 +589,7 @@
     const questButtonSmileText = new PIXI.Text('', style);
     const trophySmileText = new PIXI.Text('', styleNS);
 
-    const startMenuRect = new PIXI.Graphics();
+    const startMenuRect = new PIXI.Sprite();
     const closeStartMenuRect = new PIXI.Sprite();
     const soundButton1 = new PIXI.Sprite();
 
