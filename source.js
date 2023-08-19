@@ -1275,25 +1275,25 @@
         }
         rewardButton.eventMode = 'static';
         rewardButton.on('pointerdown', function () {
-            if (isYSDK) {
-                window.ysdk.adv.showRewardedVideo({
-                    callbacks: {
-                        onOpen: () => {
-                            document.dispatchEvent(OnGameStop);
-                        },
-                        onRewarded: () => {
+            if (isYSDK)
+            {
+                document.dispatchEvent(OnGameStop);                   
+                bridge.send('VKWebAppShowNativeAds', { ad_format: 'reward' })
+                    .then((data) => {
+                        if (data.result)
+                        {
                             multipliyer++;
                             rewardText.text = multipliyer + 1 + ' X';
-
-                        },
-                        onClose: () => {
                             document.dispatchEvent(OnGameStart);
-                        },
-                        onError: (e) => {
+                        }                           
+                        else
+                        {
                             document.dispatchEvent(OnGameStart);
                         }
-                    }
-                })
+                            
+                    })
+                    .catch((error) => { console.log(error); /* Ошибка */ });
+
             }
             document.dispatchEvent(OnGameInteract);
         });
@@ -1742,21 +1742,26 @@
 
 
     function AutoShow() {
-        if (!isGameHidden && !isGameStopped) {
-            app.stage.addChild(adsContainer);
-            document.dispatchEvent(OnGameStop);
-            setTimeout(ShowInter, 780);
-            adWillBeShownTxt.text = stringAdWillBeStartedAfter + '2...'
-            setTimeout(() => {
-                adWillBeShownTxt.text = stringAdWillBeStartedAfter + '1...'
-            }, 590);
-        }
+        bridge.send('VKWebAppCheckNativeAds', {
+            ad_format: 'interstitial'
+        })
+            .then((data) => {
+                if (data.result)
+                {
+                    if (!isGameHidden && !isGameStopped) {
+                        app.stage.addChild(adsContainer);
+                        document.dispatchEvent(OnGameStop);
+                        setTimeout(ShowInter, 780);
+                        adWillBeShownTxt.text = stringAdWillBeStartedAfter + '2...'
+                        setTimeout(() => {
+                            adWillBeShownTxt.text = stringAdWillBeStartedAfter + '1...'
+                        }, 590);
+                    }
+                }
+            })
+            .catch((error) => { console.log(error); });
     }
 
-
-    function FirstAdsShow() {
-        AutoShow();
-    }
 
     let timerCycle = 0;
     function CycleTimer(delta) {
@@ -1804,12 +1809,11 @@
     }
 
     setTimeout(() => {
+        AutoShow();
         app.ticker.add(CycleTimer);
-        FirstAdsShow();
     }, 15000);
 
-    app.ticker.add(CycleTimer);
-    FirstAdsShow();
+
 
     //#endregion
 }
