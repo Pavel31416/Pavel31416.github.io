@@ -15,7 +15,7 @@
     //#region Data
     function SetSdk()
     {
-                SetRu();
+       SetRu();
     }
 
     let stringAdWillBeStartedAfter = '';
@@ -1720,37 +1720,23 @@
     //#endregion
 
     //#region Timers
-    let emergensyClose = true;
-
-    function EmergensyCloseAds() {
-        if (emergensyClose) {
-            document.dispatchEvent(OnGameStart);
-            app.stage.removeChild(adsContainer);
-        }
-    }
 
 
     function ShowInter() {
-        emergensyClose = true;
-        setTimeout(EmergensyCloseAds, 6000);
-        window.ysdk.adv.showFullscreenAdv({
-            callbacks: {
-                onClose: function (wasShown) {
+        vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'interstitial' })
+            .then((data) => {
+                if (data.result)
+                {
                     document.dispatchEvent(OnGameStart);
                     app.stage.removeChild(adsContainer);
-                    if (!emergensyClose) {
-                        document.dispatchEvent(OnGameInteract);
-                    }
-                },
-                onError: function (error) {
-                    document.dispatchEvent(OnGameStart);
-                    app.stage.removeChild(adsContainer);
-                },
-                onOpen: function () {
-                    emergensyClose = false;
                 }
-            }
-        });
+                else
+                {
+                    document.dispatchEvent(OnGameStart);
+                    app.stage.removeChild(adsContainer);
+                }
+            })
+            .catch((error) => { console.log(error); });
     }
 
 
