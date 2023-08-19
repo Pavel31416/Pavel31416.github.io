@@ -6,7 +6,21 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script>
-        function PM(n) { ym(94495340, "reachGoal", n) } !function (n, e, t, c, a, i, s) { n[a] = n[a] || function () { (n[a].a = n[a].a || []).push(arguments) }, n[a].l = 1 * new Date; for (var r = 0; r < document.scripts.length; r++)if (document.scripts[r].src === c) return; i = e.createElement(t), s = e.getElementsByTagName(t)[0], i.async = 1, i.src = c, s.parentNode.insertBefore(i, s) }(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"), ym(94495340, "init", { clickmap: !0, trackLinks: !0, accurateTrackBounce: !0 }); const OnYSDKInit = new Event("OnYSDKInit"); let isYSDK = !1; function async(n, e) { var t = document, c = "script", a = t.createElement(c), i = t.getElementsByTagName(c)[0]; a.src = n, e && a.addEventListener("load", (function (n) { e(null, n) }), !1), i.parentNode.insertBefore(a, i) } async("https://yandex.ru/games/sdk/v2", (() => { YaGames.init().then((n => { window.ysdk = n, document.dispatchEvent(OnYSDKInit), isYSDK = !0 })) }));
+        const OnYSDKInit = new Event("OnYSDKInit");
+        let isYSDK = false;
+        function async(u, c) {
+            var d = document, t = 'script',
+                o = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+            o.src = u;
+            if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+            s.parentNode.insertBefore(o, s);
+        }
+        async('https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js', () => {
+                    vkBridge.send('VKWebAppInit');
+                    document.dispatchEvent(OnYSDKInit);
+                    isYSDK = true;
+        });
     </script>
     <style>
         body {

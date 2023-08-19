@@ -13,44 +13,9 @@
     //#endregion
 
     //#region Data
-    function SetSdk(){
-        switch (ysdk.environment.i18n.lang) {
-            case "ru":
-                //SetRu();
-                SetTr();
-                break;
-            case "tr":
-                SetTr();
-                break;
-            case "be":
+    function SetSdk()
+    {
                 SetRu();
-                break;
-            case "kk":
-                SetRu();
-                break;
-            case "uk":
-                SetRu();
-                break;
-            case "uz":
-                SetRu();
-                break;
-            default:
-                SetEn();
-                break;
-        }
-
-
-        if (ysdk.deviceInfo.isDesktop()) {
-            window.addEventListener("wheel", e => e.preventDefault(), { passive: false });
-        }
-
-        setInterval(SetLeaderBoard, 1100);
-
-        ysdk.shortcut.canShowPrompt().then(prompt => {
-            if (prompt.canShow) {
-                ysdk.shortcut.showPrompt();
-            }
-        });
     }
 
     let stringAdWillBeStartedAfter = '';
@@ -85,48 +50,9 @@
         crystalString = ' кристаллов!';
         ballQuestProgressString = 'Открыть смайл номер: '
     }
-    function SetEn() {
-        stringAdWillBeStartedAfter = 'Ad will be started after ';
-        stringNewSmile = 'A new emoji for: ';
-        stringReset = 'Restart the game!';
-        stringReset1 = 'The game progress will be erased! Are you sure?';
-        stringYes = 'Yes!';
-        stringNo = 'No!';
-        upgrateTo = 'Upgrade to +';
-        forClick = '/click for ';
-        randomSmileString = 'A new emoji or the previous one for ';
-        randomAttentionString = 'Emoji are chosen randomly!';
-        emodjiString = 'emoji: ';
-        collectString = 'Collect ';
-        crystalString = ' crystals!';
-        ballQuestProgressString = 'Open emoji number: ';
-
-    }
-    function SetTr() {
-        stringAdWillBeStartedAfter = 'Reklamlar bundan sonra başlatılacak ';
-        stringNewSmile = 'İçin yeni bir emoji: ';
-        stringReset = 'Oyunu yeniden başlat!';
-        stringReset1 = 'Oyunun ilerleyişi silinecek! Emin misin?';
-        stringYes = 'Evet!';
-        stringNo = 'Hayır!';
-        upgrateTo = 'Yükseltme +';
-        forClick = '/için tıklayın';
-        randomSmileString = 'Yeni bir emoji veya bir önceki emoji için ';
-        randomAttentionString = 'Emoji rastgele seçilir!';
-        emodjiString = 'emoji: ';
-        collectString = '';
-        crystalString = ' kristal toplayın!';
-        ballQuestProgressString = 'Emoji numarasını aç: ';
-
-    }
 
 
-    function SetLeaderBoard() {
-        window.ysdk.getLeaderboards()
-            .then(lb => {
-                lb.setLeaderboardScore('LEADER2', totalMoney);
-            });
-    }
+
 
 
 
