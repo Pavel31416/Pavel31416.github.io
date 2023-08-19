@@ -817,13 +817,21 @@
         closeButtonTrophy.on('pointerdown', function () {
             isTrophyOpen = !isTrophyOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isTrophyOpen) {
-                app.stage.addChild(trophyRect);
+
+            if (isOpen) {
                 app.stage.removeChild(buttonContainer);
             }
             else {
-                app.stage.removeChild(trophyRect);
                 app.stage.addChild(buttonContainer);
+            }
+
+            if (isTrophyOpen) {
+                app.stage.addChild(trophyRect);
+                
+            }
+            else {
+                app.stage.removeChild(trophyRect);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -882,13 +890,22 @@
             document.dispatchEvent(OnGameInteract);
             isTrophyOpen = !isTrophyOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isTrophyOpen) {
-                app.stage.addChild(trophyRect);
+
+            if (isOpen) {
                 app.stage.removeChild(buttonContainer);
             }
             else {
-                app.stage.removeChild(trophyRect);
                 app.stage.addChild(buttonContainer);
+            }
+
+
+            if (isTrophyOpen) {
+                app.stage.addChild(trophyRect);
+                
+            }
+            else {
+                app.stage.removeChild(trophyRect);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -948,13 +965,23 @@
         closeButtonTrophySmile.on('pointerdown', function () {
             isTrophySmileOpen = !isTrophySmileOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isTrophySmileOpen) {
-                app.stage.addChild(trophySmileRect);
+
+
+            if (isOpen) {
                 app.stage.removeChild(buttonContainer);
             }
             else {
-                app.stage.removeChild(trophySmileRect);
                 app.stage.addChild(buttonContainer);
+            }
+
+
+            if (isTrophySmileOpen) {
+                app.stage.addChild(trophySmileRect);
+                
+            }
+            else {
+                app.stage.removeChild(trophySmileRect);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1040,13 +1067,23 @@
             document.dispatchEvent(OnGameInteract);
             isTrophySmileOpen = !isTrophySmileOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isTrophySmileOpen) {
-                app.stage.addChild(trophySmileRect);
+
+
+            if (isOpen) {
                 app.stage.removeChild(buttonContainer);
             }
             else {
-                app.stage.removeChild(trophySmileRect);
                 app.stage.addChild(buttonContainer);
+            }
+
+
+            if (isTrophySmileOpen) {
+                app.stage.addChild(trophySmileRect);
+                
+            }
+            else {
+                app.stage.removeChild(trophySmileRect);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1137,13 +1174,22 @@
         closeButton1.on('pointerdown', function () {
             isLuckOpen = !isLuckOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isLuckOpen) {
-                app.stage.addChild(luckRect);
+
+            if (isOpen) {
                 app.stage.removeChild(buttonContainer);
             }
             else {
-                app.stage.removeChild(luckRect);
                 app.stage.addChild(buttonContainer);
+            }
+
+
+            if (isLuckOpen) {
+                app.stage.addChild(luckRect);
+                
+            }
+            else {
+                app.stage.removeChild(luckRect);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1237,13 +1283,22 @@
             document.dispatchEvent(OnGameInteract);
             isLuckOpen = !isLuckOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isLuckOpen) {
-                app.stage.addChild(luckRect);
+
+            if (isOpen) {
                 app.stage.removeChild(buttonContainer);
             }
             else {
-                app.stage.removeChild(luckRect);
                 app.stage.addChild(buttonContainer);
+            }
+
+
+            if (isLuckOpen) {
+                app.stage.addChild(luckRect);
+                
+            }
+            else {
+                app.stage.removeChild(luckRect);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1262,7 +1317,7 @@
         luckCircleText.scale.y = 1.7;
         luckCircle.addChild(luckCircleText);
 
-        app.stage.addChild(luckButton);
+        buttonContainer.addChild(luckButton);
 
 
 
@@ -1279,14 +1334,24 @@
             document.dispatchEvent(OnGameInteract);
             isMenuOpen = !isMenuOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
-            if (isMenuOpen) {
-                app.stage.addChild(menuRect);
+
+            if (isOpen)
+            {
                 app.stage.removeChild(buttonContainer);
             }
-            else {
+            else
+            {
+                app.stage.addChild(buttonContainer);
+            }
+
+            if (isMenuOpen)
+            {
+                app.stage.addChild(menuRect);                
+            }
+            else
+            {
                 menuRect.removeChild(resetPanel);
                 app.stage.removeChild(menuRect);
-                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1397,14 +1462,22 @@
         closeButton.on('pointerdown', function () {
             isMenuOpen = !isMenuOpen;
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
+
+            if (isOpen) {
+                app.stage.removeChild(buttonContainer);
+            }
+            else {
+                app.stage.addChild(buttonContainer);
+            }
+
             if (isMenuOpen) {
                 app.stage.addChild(menuRect);
-                app.stage.removeChild(buttonContainer);
+                
             }
             else {
                 menuRect.removeChild(resetPanel);
                 app.stage.removeChild(menuRect);
-                app.stage.addChild(buttonContainer);
+                
             }
             document.dispatchEvent(OnNewSmileSound);
         });
