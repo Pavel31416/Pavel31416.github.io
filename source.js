@@ -747,7 +747,7 @@
         app.stage.addChild(ball[1]);
         app.stage.addChild(ball[2]);
 
-        app.stage.addChild(buttonContainer);
+        
 
         giftButton.texture = sheet.textures["gift.png"];
         giftButton.anchor.set(1, 1);
@@ -819,9 +819,11 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isTrophyOpen) {
                 app.stage.addChild(trophyRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 app.stage.removeChild(trophyRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -882,9 +884,11 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isTrophyOpen) {
                 app.stage.addChild(trophyRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 app.stage.removeChild(trophyRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -946,9 +950,11 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isTrophySmileOpen) {
                 app.stage.addChild(trophySmileRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 app.stage.removeChild(trophySmileRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1036,9 +1042,11 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isTrophySmileOpen) {
                 app.stage.addChild(trophySmileRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 app.stage.removeChild(trophySmileRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1131,9 +1139,11 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isLuckOpen) {
                 app.stage.addChild(luckRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 app.stage.removeChild(luckRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1229,9 +1239,11 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isLuckOpen) {
                 app.stage.addChild(luckRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 app.stage.removeChild(luckRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1269,10 +1281,12 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isMenuOpen) {
                 app.stage.addChild(menuRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 menuRect.removeChild(resetPanel);
                 app.stage.removeChild(menuRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1385,10 +1399,12 @@
             isOpen = isMenuOpen || isLuckOpen || isTrophyOpen || isTrophySmileOpen;
             if (isMenuOpen) {
                 app.stage.addChild(menuRect);
+                app.stage.removeChild(buttonContainer);
             }
             else {
                 menuRect.removeChild(resetPanel);
                 app.stage.removeChild(menuRect);
+                app.stage.addChild(buttonContainer);
             }
             document.dispatchEvent(OnNewSmileSound);
         });
@@ -1565,6 +1581,7 @@
             app.stage.removeChild(startMenuRect);
             document.dispatchEvent(OnNewSmileSound);
             document.dispatchEvent(OnGameInteract);
+            app.stage.addChild(buttonContainer);
         });
         startMenuRect.addChild(closeStartMenuRect);
 
