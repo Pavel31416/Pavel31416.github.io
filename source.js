@@ -64,7 +64,8 @@
     let collectString = '';
     let crystalString = '';
     let ballQuestProgressString = '';
-
+    let stringShare = '';
+    let stringPlay = '';
 
     function SetRu() {
         stringAdWillBeStartedAfter = 'Реклама будет запущена после ';
@@ -80,7 +81,10 @@
         emodjiString = 'смайл: ';
         collectString = 'Собрать ';
         crystalString = ' кристаллов!';
-        ballQuestProgressString = 'Открыть смайл номер: '
+        ballQuestProgressString = 'Открыть смайл номер: ';
+
+        stringShare = 'Поделиться за ';
+        stringPlay = 'Играть!';
     }
 
 
@@ -598,6 +602,8 @@
     const soundButton1 = new PIXI.Sprite();
     const shareButton = new PIXI.Sprite();
     const playButton = new PIXI.Sprite();
+    const shareText = new PIXI.Text('', style);
+    const playText = new PIXI.Text('', style);
 
     const buttonContainer = new PIXI.Container();
 
@@ -717,11 +723,16 @@
         yesText.text = stringYes;
         noText.text = stringNo;
         randomSmileAttentionText.text = randomAttentionString;
+        shareText.text = stringShare + '1500!';
+        playText.text = stringPlay;
+
         UpdateUpgrateText();
         document.dispatchEvent(OnUpdateUI);
         UpdateRandomSmileText();
         UpdateTrophyText();
         UpdateTrophySmile();
+
+
     }
 
 
@@ -1700,13 +1711,15 @@
             document.dispatchEvent(OnGameInteract);
             document.dispatchEvent(OnNewSmileSound);
 
-            bridge.send('VKWebAppShare', {
+            vkBridge.send('VKWebAppShare', {
                 link: 'https://vk.com/app51731881'
             })
                 .then((data) => {
                     if (data.result)
                     {
-                        score += 500;
+                        score += 1500;
+                        document.dispatchEvent(OnUpdateUI);
+                        Save();
                     }
                 })
                 .catch((error) => {
@@ -1715,6 +1728,13 @@
                 });
 
         });
+
+        shareText.anchor.set(0.5, 0.5);
+        shareText.x = 0;
+        shareText.y = 59;
+        shareText.scale.x = 0.75;
+        shareText.scale.y = 0.75;
+        shareButton.addChild(shareText);
         
 
 
@@ -1734,6 +1754,13 @@
             app.stage.addChild(buttonContainer);
         });
         startMenuRect.addChild(playButton);
+
+        playText.anchor.set(0.5, 0.5);
+        playText.x = 0;
+        playText.y = 59;
+        playText.scale.x = 0.75;
+        playText.scale.y = 0.75;
+        playButton.addChild(playText);
 
 
 
