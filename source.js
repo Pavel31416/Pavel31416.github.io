@@ -315,7 +315,9 @@
     });
 
     document.addEventListener("OnGameStart", () => {
-        isGameStopped = false;
+        if (!isFirstGame) {
+            isGameStopped = false;
+        }
         if (soundState) {
             Howler.mute(false);
         }
@@ -533,6 +535,8 @@
 
     let giftFill = 0;
 
+    let isFirstGame = true;
+
 
     const spriteSheetName = "sprites/UI.json";
     const resetText = new PIXI.Text(stringReset, style);
@@ -592,8 +596,11 @@
     const startMenuRect = new PIXI.Sprite();
     const closeStartMenuRect = new PIXI.Sprite();
     const soundButton1 = new PIXI.Sprite();
+    const shareButton = new PIXI.Sprite();
+    const playButton = new PIXI.Sprite();
 
     const buttonContainer = new PIXI.Container();
+
 
 
     function CrystalQuestCost() {
@@ -1651,6 +1658,7 @@
         closeStartMenuRect.eventMode = 'static';
         closeStartMenuRect.on('pointerdown', function () {
             isGameStopped = false;
+            isFirstGame = false;
             app.stage.removeChild(startMenuRect);
             document.dispatchEvent(OnNewSmileSound);
             document.dispatchEvent(OnGameInteract);
@@ -1679,6 +1687,53 @@
             }
         });
         startMenuRect.addChild(soundButton1);
+
+
+        shareButton.texture = sheet.textures["redButton.png"];
+        shareButton.anchor.set(0.5, 0);
+        shareButton.x = 0;
+        shareButton.y = 68;
+        shareButton.height = 114;
+        shareButton.width = 400;
+        shareButton.eventMode = 'static';
+        shareButton.on('pointerdown', function () {
+            document.dispatchEvent(OnGameInteract);
+            document.dispatchEvent(OnNewSmileSound);
+
+            bridge.send('VKWebAppShare', {
+                link: 'https://vk.com/app51731881'
+            })
+                .then((data) => {
+                    if (data.result)
+                    {
+                        score += 500;
+                    }
+                })
+                .catch((error) => {
+                    // Ошибка
+                    console.log(error);
+                });
+
+        });
+        
+
+
+        playButton.texture = sheet.textures["redButton.png"];
+        playButton.anchor.set(0.5, 0);
+        playButton.x = 0;
+        playButton.y = -68;
+        playButton.height = 114;
+        playButton.width = 400;
+        playButton.eventMode = 'static';
+        playButton.on('pointerdown', function () {
+            isGameStopped = false;
+            isFirstGame = false;
+            app.stage.removeChild(startMenuRect);
+            document.dispatchEvent(OnNewSmileSound);
+            document.dispatchEvent(OnGameInteract);
+            app.stage.addChild(buttonContainer);
+        });
+        startMenuRect.addChild(playButton);
 
 
 
@@ -1815,10 +1870,12 @@
 
         
         if (isYSDK) {
+            startMenuRect.addChild(shareButton);
             CheckRewardAds();
-            setTimeout(() => {CheckRewardAds();}, 8000);            
+            setTimeout(() => { CheckRewardAds(); }, 8000);            
         }
         document.addEventListener("OnYSDKInit", () => {                
+            startMenuRect.addChild(shareButton);
             CheckRewardAds();
             setTimeout(() => { CheckRewardAds(); }, 8000);
         });
