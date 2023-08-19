@@ -13,6 +13,20 @@
     //#endregion
 
     //#region Data
+    window.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            Howler.mute(true);
+            isGameHidden = true;
+        }
+        else {
+            if (soundState && !isGameStopped) {
+                Howler.mute(false);
+                isGameHidden = false;
+            }
+        }
+    });
+
+
     function SetSdk()
     {
         SetRu();
