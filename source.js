@@ -1587,9 +1587,9 @@
                         app.stage.removeChild(rewardButton);
                     }
                 })
-                .catch((error) => { console.log(error); });
+                .catch((error) => { console.log(error); });*/
             
-        }*/
+        }
 
         window.addEventListener('resize', myResizeUI);
         UpdateUI();
