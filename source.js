@@ -1278,7 +1278,7 @@
             if (isYSDK)
             {
                 document.dispatchEvent(OnGameStop);                   
-                bridge.send('VKWebAppShowNativeAds', { ad_format: 'reward' })
+                vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'reward' })
                     .then((data) => {
                         if (data.result)
                         {
@@ -1292,12 +1292,14 @@
                         }
                             
                     })
-                    .catch((error) => { console.log(error); /* Ошибка */ });
+                    .catch((error) => {
+                        console.log(error);
+                        document.dispatchEvent(OnGameStart);
+                    });
 
             }
             document.dispatchEvent(OnGameInteract);
-        });
-        app.stage.addChild(rewardButton);
+        });       
 
 
 
@@ -1574,6 +1576,19 @@
             spriteNumberText.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
             spriteNumberText1.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
             spriteNumberText2.text = emodjiString + (ballNumber + 1) + '/' + (maxBallNumber);
+
+            vkBridge.send('VKWebAppCheckNativeAds', {
+                ad_format: 'reward' 
+            })
+                .then((data) => {
+                    if (data.result) {
+                        app.stage.addChild(rewardButton);
+                    } else {
+                        app.stage.removeChild(rewardButton);
+                    }
+                })
+                .catch((error) => { console.log(error); });
+            
         }
 
         window.addEventListener('resize', myResizeUI);
@@ -1736,7 +1751,11 @@
                     app.stage.removeChild(adsContainer);
                 }
             })
-            .catch((error) => { console.log(error); });
+            .catch((error) => {
+                console.log(error);
+                document.dispatchEvent(OnGameStart);
+                app.stage.removeChild(adsContainer);
+            });
     }
 
 
